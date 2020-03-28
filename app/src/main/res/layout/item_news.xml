@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="112dp"
+    android:minHeight="96dp">
+
+    <TextView
+        android:id="@+id/newsTitleTextView"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@id/pubDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/newsThumbnailImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Cras dapibus. Praesent egestas neque eu enim. Sed a libero. Nam adipiscing. Donec vitae orci sed dolor rutrum auctor." />
+
+    <TextView
+        android:id="@+id/pubDate"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newsTitleTextView"
+        tools:text="Cras dapibus." />
+
+
+    <ImageView
+        android:id="@+id/newsThumbnailImageView"
+        android:layout_width="96dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/newsTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_launcher_background" />
+</androidx.constraintlayout.widget.ConstraintLayout>
