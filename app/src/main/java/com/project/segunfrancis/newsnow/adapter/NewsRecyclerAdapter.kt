@@ -17,7 +17,7 @@ import java.util.*
  */
 class NewsRecyclerAdapter : RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecyclerViewHolder>() {
 
-    private var data: List<News> = ArrayList()
+    private var data: List<News>? = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsRecyclerViewHolder {
         return NewsRecyclerViewHolder(
@@ -26,12 +26,12 @@ class NewsRecyclerAdapter : RecyclerView.Adapter<NewsRecyclerAdapter.NewsRecycle
         )
     }
 
-    override fun getItemCount() = data.size
+    override fun getItemCount() = data!!.size
 
     override fun onBindViewHolder(holder: NewsRecyclerViewHolder, position: Int) =
-        holder.bind(data[position])
+        holder.bind(data!![position])
 
-    fun addData(data: List<News>) {
+    fun addData(data: List<News>?) {
         this.data = data
         notifyDataSetChanged()
     }

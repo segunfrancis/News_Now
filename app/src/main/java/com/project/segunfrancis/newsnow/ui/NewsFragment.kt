@@ -1,19 +1,21 @@
 package com.project.segunfrancis.newsnow.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
-import com.google.firebase.database.*
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.project.segunfrancis.newsnow.R
 import com.project.segunfrancis.newsnow.adapter.NewsRecyclerAdapter
 import com.project.segunfrancis.newsnow.model.News
+import com.project.segunfrancis.newsnow.viewmodel.NewsViewModel
 import kotlinx.android.synthetic.main.fragment_news.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -21,7 +23,8 @@ import kotlin.collections.ArrayList
 class NewsFragment : Fragment(R.layout.fragment_news) {
 
     lateinit var adapter: NewsRecyclerAdapter
-    private var newsList: List<News> = ArrayList()
+    private val viewModel: NewsViewModel by viewModels()
+    private lateinit var tempContext: Context
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,24 +39,20 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     }
 
     private fun populateRecyclerView() {
-        FirebaseDatabase.getInstance().getReference("news").limitToLast(100)
-            .addValueEventListener(
-                object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        (newsList as ArrayList).clear()
-                        for (snapshot in dataSnapshot.children) {
-                            (newsList as ArrayList).add(snapshot.getValue(News::class.java)!!)
-                        }
-                        (newsList as ArrayList).reverse()
-                        adapter.addData(newsList)
-                        recyclerView.adapter = adapter
-                        swipeRefreshLayout.isRefreshing = false
-                    }
+        viewModel.getNewsLiveData().observe(requireActivity(),
+            Observer<List<News>?> {
+                if (it!!.isNotEmpty()) {
+                    adapter.addData(it)
+                    recyclerView.layoutManager = LinearLayoutManager(tempContext)
+                    recyclerView.adapter = adapter
+                    swipeRefreshLayout.isRefreshing = false
+                    Log.d("NewsFragment", it.toString())
+                }
+            })
+    }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("NewsFragment", error.details)
-                        swipeRefreshLayout.isRefreshing = false
-                    }
-                })
+    override fun onAttach(context: Context) {
+        tempContext = context
+        super.onAttach(context)
     }
 }
