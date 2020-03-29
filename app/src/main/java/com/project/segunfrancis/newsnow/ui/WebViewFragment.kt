@@ -1,6 +1,7 @@
 package com.project.segunfrancis.newsnow.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -16,12 +17,17 @@ import kotlinx.android.synthetic.main.fragment_web_view.*
  */
 class WebViewFragment : Fragment(R.layout.fragment_web_view) {
 
+    private lateinit var tempContext: Context
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.tempContext = context
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         webView.settings.javaScriptEnabled = true
-
-
 
         if (arguments != null) {
             val url = arguments!!.getString("URL")
@@ -53,7 +59,7 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
                 super.onReceivedError(view, request, error)
                 if (swipeRefreshLayout != null)
                     swipeRefreshLayout.isRefreshing = false
-                Toast.makeText(requireContext(), "Failed to load page", Toast.LENGTH_LONG)
+                Toast.makeText(tempContext, "Failed to load page", Toast.LENGTH_LONG)
                     .show()
                 Log.d("WebViewFragment", error.toString())
             }

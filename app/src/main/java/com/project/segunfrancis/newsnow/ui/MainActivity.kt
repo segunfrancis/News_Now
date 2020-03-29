@@ -10,6 +10,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.firebase.database.FirebaseDatabase
 import com.project.segunfrancis.newsnow.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_web_view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,5 +48,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun showToolBar() {
         toolBar.visibility = View.VISIBLE
+    }
+
+    override fun onBackPressed() {
+        if (findNavController(R.id.main_fragment).currentDestination?.id == R.id.webViewFragment) {
+            if (webView.canGoBack()) {
+                webView.goBack()
+            }
+        }
+        super.onBackPressed()
     }
 }
